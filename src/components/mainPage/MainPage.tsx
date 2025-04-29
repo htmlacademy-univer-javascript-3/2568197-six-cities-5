@@ -1,5 +1,5 @@
 import React from 'react';
-import OfferCard from '../offerCard/OfferCard';
+import OfferCard from '../OfferCard/OfferCard';
 
 type MainPageProps = {
   offerCount: number;
