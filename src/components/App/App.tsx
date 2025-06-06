@@ -1,31 +1,33 @@
 import React from 'react';
-import MainPage from '../mainPage/MainPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LoginPage from '../Login.page/LoginPage';
-import FavoritePage from '../FavoritesPage/FavoritePage';
-import OfferCard from '../OfferCard/OfferCard';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import PrivateRoute from '../PrivateRoute/PrivateRoute';
+import { AppRoutes } from '../../constants/routers';
+import PrivateRouter from '../private-route/private-route';
+import MainPage from '../../pages/main-page/main-page';
+import LoginPage from '../../pages/login-page/login-page';
+import FavoritesPage from '../../pages/favorites-page/favorites-page';
+import OfferPage from '../../pages/offer-page/offer-page';
+import NotFound from '../../pages/not-found-page/not-found-page';
+import { Offer } from '../../types/offer';
 
-type AppProps = {
-  offerCount: number;
-};
+const USER_STATUS_AUTHENTICATED = true;
 
-const App: React.FC<AppProps> = ({ offerCount }) => (
+interface AppProps {
+  offers: Offer[];
+}
+
+const App: React.FC<AppProps> = ({ offers }) => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<MainPage offerCount={offerCount} />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/favorites"
-        element={
-          <PrivateRoute>
-            <FavoritePage />
-          </PrivateRoute>
-        }
+      <Route path={AppRoutes.Default} element={<MainPage offersCount={offers.length} offers={offers} />} />
+      <Route path={AppRoutes.Login} element={<LoginPage />} />
+      <Route path={AppRoutes.Favorites} element={(
+        <PrivateRouter isAuthenticated={USER_STATUS_AUTHENTICATED}>
+          <FavoritesPage offers={offers} />
+        </PrivateRouter>
+      )}
       />
-      <Route path="/offer/:id" element={<OfferCard />} />
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path={AppRoutes.OfferId} element={<OfferPage />} />
+      <Route path='*' element={<NotFound />} />
     </Routes>
   </BrowserRouter>
 );
