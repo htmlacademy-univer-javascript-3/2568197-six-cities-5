@@ -6,16 +6,16 @@ interface ReviewItemProps {
 }
 
 const ReviewItem: React.FC<ReviewItemProps> = ({review}) => {
-  const { rating, user, comment, date } = review;
+  const { rating, user, comment , date } = review;
   const monthNames = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const dateObj = new Date(date.split('T')[0]);
   const stringDate = `${monthNames[dateObj?.getMonth()]} ${dateObj.getFullYear()}`;
 
   return (
-    <li className="reviews__item">
+    <li className="reviews__item" data-testid="review-item">
       <div className="reviews__user user">
         <div className="reviews__avatar-wrapper user__avatar-wrapper">
-          <img className="reviews__avatar user__avatar" src={`img/${user.avatarUrl}`} width="54" height="54" alt="Reviews avatar" />
+          <img className="reviews__avatar user__avatar" src={user.avatarUrl} width="54" height="54" alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">
           {user.name}
